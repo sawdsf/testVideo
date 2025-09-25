@@ -3,7 +3,6 @@ package test.plaer;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,7 +16,6 @@ import org.freedesktop.gstreamer.Element;
 import org.freedesktop.gstreamer.ElementFactory;
 import org.freedesktop.gstreamer.Gst;
 import org.freedesktop.gstreamer.Pipeline;
-import org.freedesktop.gstreamer.Pad;
 import org.freedesktop.gstreamer.swing.GstVideoComponent;
 
 public class PlayerApp {
@@ -27,7 +25,6 @@ public class PlayerApp {
     private GstVideoComponent videoComponent;
     private JFrame frame;
     private JComboBox<String> filterBox;
-    private String currentFile;
 
     public PlayerApp() {
         Gst.init("PlayerApp", new String[]{});
@@ -83,7 +80,6 @@ public class PlayerApp {
 
     private void openFile(String filename) {
         try {
-            currentFile = filename;
 
             if (pipeline != null) {
                 pipeline.stop();
