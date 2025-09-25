@@ -150,26 +150,30 @@ public class PlayerApp {
     }
 
     private Element createFilterElementByName(String name) {
-        try {
-            if ("Черно-белый".equals(name)) {
-                Element balance = ElementFactory.make("videobalance", "vbalance");
-                balance.set("saturation", 0.0f);
-                return balance;
-            } else if ("Инверсия".equals(name)) {
-                Element freiInvert = ElementFactory.make("frei0r-filter-invert0r", "freiInvert");
-                if (freiInvert != null) return freiInvert;
-                Element videoInvert = ElementFactory.make("videoinvert", "videoInvert");
-                if (videoInvert != null) return videoInvert;
-                return null;
-            } else if ("Размытие".equals(name)) {
-                Element freiBlur = ElementFactory.make("frei0r-filter-iir-blur", "freiBlur");
-                if (freiBlur != null) return freiBlur;
-                return null;
-            } else {
-                return null;
-            }
-        } catch (Exception ex) { ex.printStackTrace(); return null; }
+    try {
+        if ("Черно-белый".equals(name)) {
+            Element balance = ElementFactory.make("videobalance", "vbalance");
+            balance.set("saturation", 0.0f);
+            balance.set("brightness", 0.0f);
+            balance.set("contrast", 1.0f);
+            return balance;
+        } else if ("Инверсия".equals(name)) {
+            Element balance = ElementFactory.make("videobalance", "vbalanceInvert");
+            balance.set("saturation", 1.0f);    // цвет сохраняем
+            balance.set("brightness", 1.0f);    // смещение вверх
+            balance.set("contrast", -1.0f);     // инверсия контраста
+            return balance;
+        } else if ("Размытие".equals(name)) {
+            Element blur = ElementFactory.make("gaussianblur", "gaussianBlur");
+            return blur;
+        } else {
+            return null; // Без фильтра
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        return null;
     }
+}
 
     private void applyCurrentFilter(String selectedFilter) {
         if (pipeline == null) return;
